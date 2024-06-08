@@ -22,7 +22,7 @@ class PersonLinksFixture extends TestFixture
                 'id' => 1,
                 'from_person_id' => 1,
                 'to_person_id' => 1,
-                'created' => '2024-06-07 19:16:43',
+                'created' => '2024-06-07 18:01:38',
             ],
         ];
         parent::init();

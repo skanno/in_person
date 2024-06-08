@@ -28,8 +28,8 @@ class PersonsFixture extends TestFixture
                 'password' => 'Lorem ipsum dolor sit amet',
                 'nick_name' => 'Lorem ipsum dolor sit amet',
                 'gender_id' => 1,
-                'created' => '2024-06-07 19:17:47',
-                'modified' => '2024-06-07 19:17:47',
+                'created' => '2024-06-07 18:01:38',
+                'modified' => '2024-06-07 18:01:38',
             ],
         ];
         parent::init();

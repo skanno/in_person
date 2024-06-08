@@ -2,28 +2,33 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\PersonLink $personLink
- * @var \App\Model\Entity\Person[]|\Cake\Collection\CollectionInterface $persons
+ * @var string[]|\Cake\Collection\CollectionInterface $persons
  */
 ?>
-<?php $this->extend('/layout/TwitterBootstrap/dashboard'); ?>
-
-<?php $this->start('tb_actions'); ?>
-<li><?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $personLink->id], ['confirm' => __('Are you sure you want to delete # {0}?', $personLink->id), 'class' => 'nav-link']) ?></li>
-<li><?= $this->Html->link(__('List Person Links'), ['action' => 'index'], ['class' => 'nav-link']) ?></li>
-<li><?= $this->Html->link(__('List Persons'), ['controller' => 'Persons', 'action' => 'index'], ['class' => 'nav-link']) ?></li>
-<li><?= $this->Html->link(__('New Person'), ['controller' => 'Persons', 'action' => 'add'], ['class' => 'nav-link']) ?></li>
-<?php $this->end(); ?>
-<?php $this->assign('tb_sidebar', '<ul class="nav flex-column">' . $this->fetch('tb_actions') . '</ul>'); ?>
-
-<div class="personLinks form content">
-    <?= $this->Form->create($personLink) ?>
-    <fieldset>
-        <legend><?= __('Edit Person Link') ?></legend>
-        <?php
-            echo $this->Form->control('from_person_id');
-            echo $this->Form->control('to_person_id', ['options' => $persons]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+<div class="row">
+    <aside class="column">
+        <div class="side-nav">
+            <h4 class="heading"><?= __('Actions') ?></h4>
+            <?= $this->Form->postLink(
+                __('Delete'),
+                ['action' => 'delete', $personLink->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $personLink->id), 'class' => 'side-nav-item']
+            ) ?>
+            <?= $this->Html->link(__('List Person Links'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+        </div>
+    </aside>
+    <div class="column column-80">
+        <div class="personLinks form content">
+            <?= $this->Form->create($personLink) ?>
+            <fieldset>
+                <legend><?= __('Edit Person Link') ?></legend>
+                <?php
+                    echo $this->Form->control('from_person_id');
+                    echo $this->Form->control('to_person_id', ['options' => $persons]);
+                ?>
+            </fieldset>
+            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->end() ?>
+        </div>
+    </div>
 </div>
