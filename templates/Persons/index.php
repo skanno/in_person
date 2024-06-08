@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($persons as $person): ?>
+                <?php foreach ($persons as $person) : ?>
                 <tr>
                     <td><?= $this->Number->format($person->id) ?></td>
                     <td><?= h($person->internal_id) ?></td>
@@ -34,13 +34,23 @@
                     <td><?= h($person->email) ?></td>
                     <td><?= h($person->is_confirm_email) ?></td>
                     <td><?= h($person->nick_name) ?></td>
-                    <td><?= $person->hasValue('gender') ? $this->Html->link($person->gender->name, ['controller' => 'Genders', 'action' => 'view', $person->gender->id]) : '' ?></td>
+                    <td>
+                        <?= $person->hasValue('gender') ? $this->Html->link($person->gender->name, [
+                            'controller' => 'Genders',
+                            'action' => 'view',
+                            $person->gender->id,
+                        ]) : '' ?>
+                    </td>
                     <td><?= h($person->created) ?></td>
                     <td><?= h($person->modified) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $person->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $person->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $person->id], ['confirm' => __('Are you sure you want to delete # {0}?', $person->id)]) ?>
+                        <?= $this->Form->postLink(
+                            __('Delete'),
+                            ['action' => 'delete', $person->id],
+                            ['confirm' => __('Are you sure you want to delete # {0}?', $person->id),
+                        ]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -55,6 +65,10 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+        <p>
+            <?= $this->Paginator->counter(
+                __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')
+            ) ?>
+        </p>
     </div>
 </div>
