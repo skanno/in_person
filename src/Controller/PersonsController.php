@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Event\EventInterface;
+
 /**
  * Persons Controller
  *
@@ -10,6 +12,58 @@ namespace App\Controller;
  */
 class PersonsController extends AppController
 {
+    /**
+     * Undocumented function
+     *
+     * @param \Cake\Event\EventInterface $event
+     * @return void
+     */
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function login()
+    {
+        $this->request->allowMethod(['get', 'post']);
+        $result = $this->Authentication->getResult();
+        // POST, GET を問わず、ユーザーがログインしている場合はリダイレクトします
+        if ($result && $result->isValid()) {
+            $redirect = $this->request->getQuery('redirect', [
+                'controller' => 'Persons',
+                'action' => 'index',
+            ]);
+
+            return $this->redirect($redirect);
+        }
+        // ユーザーが submit 後、認証失敗した場合は、エラーを表示します
+        if ($this->request->is('post') && !$result->isValid()) {
+            $this->Flash->error(__('Invalid username or password'));
+        }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function logout()
+    {
+        $result = $this->Authentication->getResult();
+        // POST, GET を問わず、ユーザーがログインしている場合はリダイレクトします
+        if ($result && $result->isValid()) {
+            $this->Authentication->logout();
+
+            return $this->redirect(['controller' => 'Persons', 'action' => 'login']);
+        }
+    }
+
     /**
      * Index method
      *
