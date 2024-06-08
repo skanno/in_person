@@ -18,7 +18,7 @@
             <fieldset>
                 <legend><?= __('Add Person') ?></legend>
                 <?php
-                    echo $this->Form->control('internal_id');
+                    // echo $this->Form->control('internal_id', ['type' => 'text']);
                     echo $this->Form->control('second_name');
                     echo $this->Form->control('first_name');
                     echo $this->Form->control('email');

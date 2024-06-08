@@ -44,7 +44,7 @@
                     <td><?= h($person->created) ?></td>
                     <td><?= h($person->modified) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $person->id]) ?>
+                        <?= $this->Html->link(__('View'), ['controller' => 'persons', 'action' => 'view', $person->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $person->id]) ?>
                         <?= $this->Form->postLink(
                             __('Delete'),
