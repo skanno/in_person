@@ -31,13 +31,15 @@ class PersonsController extends AppController
      */
     public function login()
     {
+        $this->viewBuilder()->setLayout('default_sp');
+
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         // POST, GET を問わず、ユーザーがログインしている場合はリダイレクトします
         if ($result && $result->isValid()) {
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Persons',
-                'action' => 'index',
+                'action' => 'mypage',
             ]);
 
             return $this->redirect($redirect);
@@ -46,6 +48,22 @@ class PersonsController extends AppController
         if ($this->request->is('post') && !$result->isValid()) {
             $this->Flash->error(__('Invalid username or password'));
         }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function mypage()
+    {
+        $this->viewBuilder()->setLayout('default_sp');
+        $token = $this->Authentication
+            ->getIdentity()
+            ->getOriginalData()
+            ->getTemporaryToken();
+
+        $this->set(compact('token'));
     }
 
     /**
@@ -71,6 +89,8 @@ class PersonsController extends AppController
      */
     public function index()
     {
+        $this->viewBuilder()->setLayout('default_sp');
+
         $query = $this->Persons->find()
             ->contain(['Genders']);
         $persons = $this->paginate($query);

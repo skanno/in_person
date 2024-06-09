@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\I18n\DateTime;
 use Cake\ORM\Entity;
+use Cake\ORM\Locator\TableLocator;
+use Cake\Utility\Text;
 
 /**
  * Person Entity
@@ -70,5 +73,24 @@ class Person extends Entity
         if (strlen($password) > 0) {
             return (new DefaultPasswordHasher())->hash($password);
         }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
+    public function getTemporaryToken(): string
+    {
+        $tableLocator = new TableLocator();
+        $temporaryTokens = $tableLocator->get('temporary_tokens');
+
+        $temporaryToken = $temporaryTokens->newEmptyEntity();
+        $temporaryToken->person_id = $this->id;
+        $temporaryToken->token = Text::uuid();
+        $temporaryToken->created = new DateTime();
+        $temporaryTokens->save($temporaryToken);
+
+        return $temporaryToken->token;
     }
 }

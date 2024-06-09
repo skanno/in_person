@@ -43,6 +43,7 @@ class PersonsTable extends Table
         parent::initialize($config);
 
         $this->setTable('persons');
+        $this->setTable('temporary_tokens');
         $this->setDisplayField('internal_id');
         $this->setPrimaryKey('id');
 
@@ -52,6 +53,9 @@ class PersonsTable extends Table
             'foreignKey' => 'gender_id',
         ]);
         $this->hasMany('ServiceLinks', [
+            'foreignKey' => 'person_id',
+        ]);
+        $this->hasMany('TemporaryTokens', [
             'foreignKey' => 'person_id',
         ]);
     }
@@ -141,5 +145,11 @@ class PersonsTable extends Table
         if ($entity->internal_id === null) {
             $entity->internal_id = uniqid((string)rand(), true);
         }
+    }
+
+    public function getTemporaryToken(): string
+    {
+        debug($this->TemporaryTokens);
+        return '';
     }
 }
